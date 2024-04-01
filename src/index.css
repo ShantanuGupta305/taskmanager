@@ -1,13 +1,138 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+*{
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+body{
+    background-color: #8EC5FC;
+    background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+}
+.main{
+    margin:10% auto;
+    width: 50%;
+    padding: 2%;
+}
+.form-area{
+    
+}
+.input{
+    display: inline-block;
+    width: 50%;
+    height: 2rem;
+    padding: 0.5rem;
+    border-radius: 4%;
+    font: 1em sans-serif;
+}
+.date{
+    display: inline-block;
+    width: fit-content;
+    height: 2rem;
+    padding: 0.5rem;
+    border-radius: 4%;
+    font: 1em sans-serif;
+}
+button{
+  background: #FF4742;
+  border: 1px solid #FF4742;
+  border-radius: 6px;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: nunito,roboto,proxima-nova,"proxima nova",sans-serif;
+  height: 1.5rem;
+  width:fit-content ;
+  outline: 0;
+  text-align: center;
+  text-rendering: geometricprecision;
+  text-transform: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+button:hover,
+button:active {
+  background-color: initial;
+  background-position: 0 0;
+  color: #FF4742;
+}
+button:active {
+  opacity: .5;
+}
+.task-det{
+    display: flex;
+    margin-top: 1%;
+    flex-direction: row;
+    width:100%;
+    height: fit-content;
+    justify-content: space-between;
+}
+.task{
+    width: 50%;
+    height: fit-content;
+    overflow-wrap:break-word;
+    align-content: center;
+    font: 1em sans-serif;
+}
+.deadline{
+    font: 1em sans-serif;
+    width: fit-content;
+    height: 2.5rem;
+    align-content: center;
+}
+.buttons{
+    justify-content: space-between;
+    width: fit-content;
+    align-content: center;
+}
+.buttons button{
+    margin: 2px;
+    padding: 0.5px;
+}
+.function-buttons{
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 1%;
+}
+@media screen and (max-width: 1200px) {
+    .function-buttons{
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-top: 1%;
+    }
+    .task-det{
+        display: flex;
+        margin-top: 1%;
+        flex-direction: column;
+        width:100%;
+        height: fit-content;
+        justify-content: space-between;
+    }
+    .main{
+        margin:10% auto;
+        width: 100%;
+        padding: 2%;
+    }
+    .input{
+        display: inline-block;
+        width: 100%;
+        height: 2rem;
+        padding: 0.5rem;
+        border-radius: 4%;
+        font: 1em sans-serif;
+    }
+    .task{
+        width: 100%;
+        height: 2.5rem;
+        overflow: auto;
+        align-content: center;
+        font: 1em sans-serif;
+    }
 }

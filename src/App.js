@@ -1,39 +1,26 @@
 import React,{useState,useEffect} from 'react';
 import Tasks from './Components/Tasks';
+import { useSelector,useDispatch } from 'react-redux';
+import { todoAction } from './Store/todo-slice';
 const today = new Date().toISOString().split('T')[0];
-const getLocalData=()=>{
-  const todosList=localStorage.getItem("myTasks");
-  if(todosList){
-    return JSON.parse(todosList);
-  }
-  else{
-    return [];
-  }
-}
 const App = () => {
   const [show,setShow]=useState(false);
   const [task,setTask]=useState("");
-  const [taskList,setTaskList]=useState(getLocalData());
   const [isUpdate,setIsUpdate]=useState(null);
   const [date,setDate]=useState(today);
+  const dispatch=useDispatch();
+  const {tasks}=useSelector(state=>state.todo);
+  const {addTask,removeTask,clearTasks,updateTask,sortByDate,sortByEntry}=todoAction;
   const submitHandler=(e)=>{
     e.preventDefault();
     if(isUpdate===null){
-      let id=new Date().getTime().toString();
-      setTaskList([...taskList,{id:id,task:task,date:date}]);
+      dispatch(addTask({task,date}));
       setDate(today);
       setTask("");
       setShow(true);
     }
     else{
-      let newList=taskList.map((tasks)=>{
-        if(tasks.id===isUpdate){
-          let newtask={...tasks,task:task,date:date};
-          tasks=newtask;
-        }
-        return tasks;
-      });
-      setTaskList(newList);
+      dispatch(updateTask({isUpdate,task,date}));
       setDate(today);
       setTask("");
       setIsUpdate(null);
@@ -42,42 +29,38 @@ const App = () => {
   }
   const clearAll=(e)=>{
     e.preventDefault();
-    setTaskList([]);
+    dispatch(clearTasks());
     setShow(false);
   }
   const del=(id)=>{
-    let newList=taskList.filter((tasks)=>{return tasks.id!==id});
-    setTaskList(newList);
-    if(newList.length===0){
+    dispatch(removeTask(id));
+    if(tasks.length===0){
       setShow(false);
     }
   }
   const update=(id)=>{
     setIsUpdate(id);
-    taskList.find((tasks)=>{
-      if(id===tasks.id){
-        setTask(tasks.task);
-        setDate(tasks.date);
-        return tasks;
+    tasks.find((task)=>{
+      if(id===task.id){
+        setTask(task.task);
+        setDate(task.date);
+        return task;
       }
     });
   }
   const sortBy=(param)=>{
-    let sortedList=[];
     if(param==="date"){
-      sortedList=[...taskList].sort((a,b)=>new Date(a[param])-new Date(b[param]));
+      dispatch(sortByDate(param));
     }
     else if(param==="id"){
-      sortedList=[...taskList].sort((a,b)=>a[param]-b[param]);
+      dispatch(sortByEntry(param));
     }
-    setTaskList(sortedList);
   }
   useEffect(()=>{
-    if(taskList.length!==0) sortBy("id");
+    if(tasks.length!==0){
+      sortBy("id");
+    }
   },[]);
-  useEffect(()=>{
-    localStorage.setItem("myTasks",JSON.stringify(taskList));
-  },[taskList]);
   return (
     <>
       <div className='main'>
@@ -105,17 +88,17 @@ const App = () => {
         </button>
         {show && (
         <p>
-          Tasks:{taskList.length===0 && (<>No task entered.</>)}
+          Tasks:{tasks.length===0 && (<>No task entered.</>)}
         </p>
       )}
       {show && (
-        taskList.map((tasks)=>{
+        tasks.map((t)=>{
           return (
-            <Tasks key={tasks.id} tasks={tasks} del={del} update={update}/>
+            <Tasks key={t.id} t={t} del={del} update={update}/>
           );
         })
       )}
-      {show && taskList.length!==0 &&(
+      {show && tasks.length!==0 &&(
         <div className='function-buttons'>
           <button onClick={clearAll}>Clear</button>
           <button onClick={()=>sortBy("date")}>Sort By Deadline</button>

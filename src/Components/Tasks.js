@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Tasks = ({tasks,del,update}) => {
-    const {id,task,date}=tasks;
+const Tasks = ({t,del,update}) => {
+    const {id,task,date}=t;
   return (
     <div className='task-det'>
       <div className='task'>
